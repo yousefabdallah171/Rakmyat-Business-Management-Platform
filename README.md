@@ -94,27 +94,41 @@ For support, email support@raqmena.com or create an issue in this repository.
 ## 📝 License
 MIT License
 
-## 📁 Project Structure
+## 📁 Project Structure (GitHub Version)
 
 ```
 raemena-ui/
-├── app/                    # Next.js App Router pages
-│   ├── dashboard/         # Main dashboard
-│   ├── employees/         # Employee management
-│   ├── hr/               # Human resources
-│   ├── accounting/       # Financial management
-│   ├── projects/         # Project management
-│   ├── chat/             # Team communication
-│   └── settings/         # User preferences
-├── components/            # Reusable UI components
-│   ├── ui/               # Base UI components
-│   ├── layout/           # Layout components
-│   ├── auth/             # Authentication components
-│   └── projects/         # Project-specific components
-├── contexts/             # React Context providers
-├── hooks/                # Custom React hooks
-├── lib/                  # Utility functions
-└── assets/               # Static assets
+├── client/                  # Next.js frontend (app, components, hooks, services, etc.)
+│   ├── app/                # App routes and pages
+│   ├── components/         # Reusable UI components
+│   ├── contexts/           # React context providers
+│   ├── hooks/              # Custom React hooks
+│   ├── lib/                # Utility functions
+│   ├── services/           # API and business logic
+│   ├── types/              # TypeScript types
+│   ├── package.json        # Frontend dependencies
+│   └── ...                 # Configs, README, etc.
+├── server/                 # Laravel backend (app, config, routes, etc.)
+│   ├── app/                # Application core (controllers, models, etc.)
+│   ├── config/             # Laravel configuration
+│   ├── routes/             # API and web routes
+│   ├── tests/              # PHPUnit tests
+│   ├── resources/          # Views, JS, CSS
+│   ├── database/           # Migrations, seeders, factories
+│   ├── public/             # Public assets (index.php, favicon, etc.)
+│   ├── bootstrap/          # Laravel bootstrap files
+│   ├── composer.json       # Backend dependencies
+│   └── ...                 # Other configs, scripts, docs
+├── nginx/                  # Nginx configuration
+│   └── nginx.conf
+├── .github/                # GitHub settings and workflows
+│   └── workflows/
+│       └── ci-cd.yml       # CI/CD pipeline
+├── docker-compose.yml      # Docker orchestration
+├── deploy.sh               # Deployment script
+├── README.md               # Project documentation
+├── .gitignore              # Git ignore rules
+└── ...                     # Other root files (licenses, configs)
 ```
 
 ## 🌍 Internationalization
