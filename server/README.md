@@ -59,3 +59,112 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+---
+
+## 📚 API Documentation
+
+Below is a summary of all available API endpoints for this backend. Use this as a quick reference for both backend and frontend development.
+
+### Authentication
+
+- **POST /api/login** — Log in and receive an API token
+  - Body: `email`, `password`
+  - Response: `token`, `user`
+
+- **POST /api/register** — Register a new client user
+  - Body: `name`, `email`, `password`
+  - Response: `token`, `user`
+
+- **POST /api/password/email** — Send password reset link
+  - Body: `email`
+  - Response: `message` or `error`
+
+- **POST /api/password/reset** — Reset password
+  - Body: `email`, `token`, `password`, `password_confirmation`
+  - Response: `message` or `error`
+
+- **GET /api/user** — Get current user (auth required)
+- **POST /api/logout** — Log out (auth required)
+
+---
+
+### Project Management
+
+- **GET /api/projects/{id}/board** — Get Kanban board for a project (auth + tenant)
+  - Response: `project`, `board` (tasks grouped by status)
+
+---
+
+### Task Management
+
+- **PUT /api/tasks/{id}/status** — Update task status (auth + tenant)
+  - Body: `status`
+  - Response: `message`, `task`
+
+- **POST /api/tasks/{id}/time** — Log time for a task (auth + tenant)
+  - Body: `minutes`
+  - Response: `message`, `log`
+
+- **GET /api/tasks/{id}/time** — Get time logs for a task (auth + tenant)
+  - Response: `logs`
+
+- **POST /api/tasks/{id}/attach** — Attach file to a task (auth + tenant)
+  - Body: `file`
+  - Response: `message`, `attachment`
+
+- **GET /api/tasks/{id}/attachments** — Get all attachments for a task (auth + tenant)
+  - Response: `attachments`
+
+---
+
+### Accounting & Finance
+
+- **POST /api/invoices** — Create invoice (auth + tenant)
+  - Body: `client_id`, `amount`, `status`, `due_date`
+  - Response: `invoice`
+
+- **GET /api/invoices/{id}/pdf** — Download invoice as PDF (auth + tenant)
+
+- **POST /api/expenses** — Create expense (auth + tenant)
+  - Body: `user_id`, `amount`, `category`, `date`
+  - Response: `expense`
+
+- **GET /api/expenses/report** — Get expenses report (auth + tenant)
+  - Query: `month`, `year`
+  - Response: `month`, `year`, `total`, `expenses`
+
+- **POST /api/invoices/{id}/pay** — Pay invoice (auth + tenant)
+  - Body: `payment_method_id`
+  - Response: `message`, `intent`
+
+- **GET /api/reports/financial** — Get financial report (auth + tenant)
+  - Query: `year`
+  - Response: `year`, `income`, `expenses`, `profit`
+
+---
+
+### Team Communication
+
+- **GET /api/chat/messages** — Get all chat messages (auth + tenant)
+- **POST /api/chat/send** — Send chat message (auth + tenant)
+  - Body: `content`, `receiver_id`, `file`
+  - Response: `message`
+
+---
+
+### Super Admin Endpoints (require super admin role)
+
+- **GET /api/super/tenants** — List all tenants
+- **PUT /api/super/tenants/{id}** — Update tenant
+  - Body: `name`, `subdomain`, `trial_ends_at`, `active`, `extend_trial_days`, `deactivate`
+- **GET /api/super/stats** — Platform statistics
+- **GET /api/super/activity** — Recent activity logs
+- **POST /api/super/tenants/{id}/backup** — Backup tenant database
+
+---
+
+**Notes:**
+- All endpoints requiring authentication use Laravel Sanctum tokens.
+- Tenant endpoints require the correct subdomain.
+- For full request/response examples, generate and view the Scribe docs at `/docs` after running `php artisan scribe:generate`.
