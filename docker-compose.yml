@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: raqmena_main
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
+  laravel:
+    build:
+      context: ./server
+    volumes:
+      - ./server:/var/www
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: raqmena_main
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      REDIS_HOST: redis
+      BROADCAST_DRIVER: pusher
+      CACHE_DRIVER: redis
+      QUEUE_CONNECTION: redis
+      SESSION_DRIVER: redis
+      APP_URL: http://localhost
+    depends_on:
+      - mysql
+      - redis
+
+  nextjs:
+    build:
+      context: ./client
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost/api
+    depends_on:
+      - laravel
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - laravel
+      - nextjs
+
+volumes:
+  mysql_data: 
